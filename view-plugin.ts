@@ -57,11 +57,17 @@ class InlineMaskWidget extends WidgetType {
 
 		try {
 			const progress = calculateDailyProgress(timeString);
+			const formatedTime = moment(timeString.replace('[', '').replace(']', ''), 'YYYYMMDDHHmmss').format('YYYY-MM-DD HH:mm:ss');
 			this.container.createSpan({
 				text: `${progress.toFixed(2)}%`,
 				cls: 'inline-progress-bar',
+				attr: {
+					"data-time-string": formatedTime,
+					"data-progress": `${progress.toFixed(2)}%`,
+					style: `--daily-progress: ${progress.toFixed(2)}%`,
+				}
 			});
-			setTooltip(this.container, moment(timeString.replace('[', '').replace(']', ''), 'YYYYMMDDHHmmss').format('YYYY-MM-DD HH:mm:ss'));
+			setTooltip(this.container, formatedTime);
 		} catch (error) {
 			console.error(error);
 		}
